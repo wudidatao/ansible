@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="10.248.245.119" id="c2d6ae1e-1092-4bd8-8ef0-7f2165c13f41" port="22" customName="10.248.245.119 测试ansible" nameFormat="CUSTOM" username="scapp" />
+      <sshConfig authType="PASSWORD" host="10.248.253.177" id="4bf111da-2ca0-4154-abc2-877309e95bb5" port="9527" customName="10.248.253.177 生产ansible" nameFormat="CUSTOM" username="scapp" />
+    </configs>
+  </component>
+</project>
