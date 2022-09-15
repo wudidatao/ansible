@@ -2,13 +2,6 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="fcb6f591-113c-4c6d-9e17-6d7eda34ae76" name="10.248.246.104">
-        <fileTransfer rootFolder="/home/scapp" accessType="SFTP" host="10.248.246.104" port="22" sshConfigId="41ee2c76-3429-48ff-bb50-f6efdab70ac2" sshConfig="10.248.246.104">
-          <advancedOptions>
-            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
-          </advancedOptions>
-        </fileTransfer>
-      </webServer>
       <webServer id="a873b5c1-20a0-41af-8802-afdd03b5921a" name="10.248.245.119 测试ansible">
         <fileTransfer rootFolder="/home/scapp/" accessType="SFTP" host="10.248.245.119" port="22" sshConfigId="c2d6ae1e-1092-4bd8-8ef0-7f2165c13f41" sshConfig="10.248.245.119 测试ansible">
           <advancedOptions>
