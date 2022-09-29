@@ -69,4 +69,3 @@ if [ $1 == "upgrade" ] ;then
   docker stop ${grafana_description}-1.22.0-${grafana_port}
   docker run -d --privileged -p $grafana_port:$grafana_port --net $network_mode -v $grafana_conf/grafana.conf:/etc/grafana/grafana.conf -v $grafana_data/html:/usr/share/grafana/html  -v $grafana_logs:/var/log/grafana -v /etc/localtime:/etc/localtime --name $grafana_container_name $docker_image
 fi
-
