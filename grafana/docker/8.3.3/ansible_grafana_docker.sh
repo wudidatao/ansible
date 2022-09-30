@@ -2,6 +2,25 @@
 
 . ./var.sh
 
+#操作参数控制
+if [ -z $1 ];then
+  echo "输入有误，详情请参考:
+推送镜像到仓库 push
+从仓库拉取镜像 pull
+初始化容器数据（用于调试配置） init
+创建容器 create
+清除容器但保留数据 clean
+删除容器和所有数据 delete
+
+节点容器运行状态 status
+节点启动 start
+节点停止 stop
+节点重启 restart
+节点升级 upgrade
+
+调整配置 config"
+fi
+
 if [ $1 = "push" ];then
   ansible $harbor_ip -m script -a "grafana_docker.sh push $harbor_ip $grafana_version"
 fi
@@ -10,32 +29,10 @@ if [ $1 = "pull" ];then
   ansible $grafana_ip -m script -a "grafana_docker.sh pull $harbor_ip $grafana_version"
 fi
 
-if [ $1 == "init" ];then
-  ansible $grafana_ip -m script -a "grafana_docker_change_conf.sh init $harbor_ip $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode"
+if [ $1 == "init" ] || [ $1 == "create" ] || [ $1 == "clean" ] || [ $1 == "delete" ] || [ $1 == "status" ] || [ $1 == "start" ] || [ $1 == "stop" ] || [ $1 == "restart" ];then
   ansible $grafana_ip -m script -a "grafana_docker.sh init $harbor_ip $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode"
 fi
 
-if [ $1 == "create" ];then
-  ansible $grafana_ip -m script -a "grafana_docker.sh create $harbor_ip $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode"
-fi
-
-if [ $1 == "clean" ];then
-  ansible $grafana_ip -m script -a "grafana_docker.sh clean $harbor_ip $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode"
-fi
-
-if [ $1 == "status" ];then
-  ansible $grafana_ip -m script -a "grafana_docker.sh status $harbor_ip $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode"
-fi
-
-if [ $1 == "start" ];then
-  ansible $grafana_ip -m script -a "grafana_docker.sh start $harbor_ip $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode"
-fi
-
-if [ $1 == "stop" ];then
-  ansible $grafana_ip -m script -a "grafana_docker.sh stop $harbor_ip $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode"
-fi
-
 if [ $1 == "upgrade" ];then
-  ansible $grafana_ip -m script -a "grafana_docker_change_conf.sh upgrade $harbor_ip $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode"
-  ansible $grafana_ip -m script -a "grafana_docker.sh upgrade $harbor_ip $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode"
+  ansible $grafana_ip -m script -a "grafana_docker.sh upgrade $harbor_ip $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode $grafana_upgrade_version"
 fi

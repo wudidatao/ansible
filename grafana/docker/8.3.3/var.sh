@@ -1,8 +1,9 @@
 #!/bin/bash
 
-grafana_ip=
+grafana_ip=10.248.245.119
 grafana_port=3000
 grafana_version=8.3.3
+grafana_upgrade_version=9.0.0
 
 grafana_home=/data/grafana
 grafana_path=${grafana_home}/${grafana_version}-${grafana_port}
@@ -15,5 +16,5 @@ grafana_description=grafana-prod
 grafana_container_name=${grafana_description}-${grafana_version}-${grafana_port}
 network_mode=host
 
-harbor_ip=
+harbor_ip=10.248.245.184
 

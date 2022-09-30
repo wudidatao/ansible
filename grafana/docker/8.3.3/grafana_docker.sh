@@ -14,6 +14,7 @@ grafana_container_name=${12}
 network_mode=${13}
 harbor_library=grafana
 docker_image=$harbor_library:$grafana_version
+grafana_upgrade_version=${14}
 
 if [ $1 == "push" ];then
   docker pull $harbor_library/$docker_image
@@ -29,26 +30,47 @@ if [ $1 == "pull" ];then
 fi
 
 if [ $1 == "init" ];then
-  #1.初始化容器
-  docker run -d --privileged -p $grafana_port:$grafana_port --net $network_mode -u $grafana_user:root -v /etc/localtime:/etc/localtime --name $grafana_container_name $docker_image
+
+  #创建初始化用户
+  if id -u $grafana_user >/dev/null 2>&1;then
+    echo "已存在用户"$grafana_user
+  else
+    sudo groupadd $grafana_user -g 472 -o
+    sudo useradd $grafana_user -u 472 -g $grafana_user -s /sbin/nologin -o
+    echo $grafana_user"创建成功"
+  fi
+
+  #初始化目录
+  mkdir -p $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs
+
+  #权限调整
+  sudo chown -R $grafana_user:$grafana_user $grafana_home
+
+  #初始化容器
+  docker run -d --privileged -p $grafana_port:$grafana_port --net $network_mode -u root:root -v /etc/localtime:/etc/localtime --name $grafana_container_name $docker_image
 
   sleep 10s
 
-  #2.复制配置
+  #复制配置
   sudo docker cp $grafana_container_name:/etc/grafana/   $grafana_conf/
   sudo docker cp $grafana_container_name:/var/lib/grafana/   $grafana_data/
 
-  #3.删除容器但不删除数据
+  #删除容器但不删除数据
   docker rm -vf $grafana_container_name
+fi
+
+if [ $1 == "create" ];then
+  #只能使用root用户，grafana用户会有权限写入问题
+  docker run -d --privileged -p $grafana_port:$grafana_port --net $network_mode -u root:root -v $grafana_conf/grafana:/etc/grafana -v $grafana_data/grafana/:/var/lib/grafana/ -v /etc/localtime:/etc/localtime --name $grafana_container_name $docker_image
 fi
 
 if [ $1 == "clean" ];then
   docker rm -vf $grafana_container_name
 fi
 
-if [ $1 == "create" ];then
-  #只能使用root用户，grafana用户会有权限写入问题
-  docker run -d --privileged -p $grafana_port:$grafana_port --net $network_mode -u $grafana_user:root -v $grafana_conf/grafana:/etc/grafana -v $grafana_data/grafana/:/var/lib/grafana/ -v /etc/localtime:/etc/localtime --name $grafana_container_name $docker_image
+if [ $1 == "delete" ];then
+  docker rm -vf $grafana_container_name
+  rm $grafana_path -rf
 fi
 
 if [ $1 == "status" ];then
@@ -66,6 +88,11 @@ if [ $1 == "stop" ];then
 fi
 
 if [ $1 == "upgrade" ] ;then
-  docker stop ${grafana_description}-1.22.0-${grafana_port}
-  docker run -d --privileged -p $grafana_port:$grafana_port --net $network_mode -v $grafana_conf/grafana.conf:/etc/grafana/grafana.conf -v $grafana_data/html:/usr/share/grafana/html  -v $grafana_logs:/var/log/grafana -v /etc/localtime:/etc/localtime --name $grafana_container_name $docker_image
+  #停止容器
+  docker stop $grafana_container_name
+  mkdir $grafana_home/$grafana_upgrade_version-${grafana_port}
+  cp -rp $grafana_home/$grafana_version-${grafana_port}/* $grafana_home/$grafana_upgrade_version-${grafana_port}/*
+  grafana_container_name=${grafana_description}-${grafana_upgrade_version}-${grafana_port}
+  docker_image=$harbor_library:$grafana_upgrade_version
+  docker run -d --privileged -p $grafana_port:$grafana_port --net $network_mode -u root:root -v $grafana_conf/grafana:/etc/grafana -v $grafana_data/grafana/:/var/lib/grafana/ -v /etc/localtime:/etc/localtime --name $grafana_container_name $docker_image
 fi
