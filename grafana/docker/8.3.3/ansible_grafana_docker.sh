@@ -16,9 +16,7 @@ if [ -z $1 ];then
 节点启动 start
 节点停止 stop
 节点重启 restart
-节点升级 upgrade
-
-调整配置 config"
+节点升级 upgrade"
 fi
 
 if [ $1 = "push" ];then
