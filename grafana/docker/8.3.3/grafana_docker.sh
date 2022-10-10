@@ -87,7 +87,7 @@ if [ $1 == "stop" ];then
   echo $grafana_container_name已停止
 fi
 
-if [ $1 == "upgrade" ] ;then
+if [ $1 == "upgrade" ];then
   #停止容器
   docker stop $grafana_container_name
   mkdir $grafana_home/$grafana_upgrade_version-${grafana_port}
