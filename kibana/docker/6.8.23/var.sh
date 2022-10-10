@@ -3,12 +3,13 @@
 kibana_ip=
 kibana_port=5601
 kibana_version=6.8.23
+kibana_upgrade_version=9.0.0
 
 kibana_home=/data/kibana
 
 kibana_user=kibana
 kibana_pass=
-kibana_description=test-kibana
+kibana_description=kibana-test
 
 network_mode=host
 
