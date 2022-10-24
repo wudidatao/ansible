@@ -1,20 +1,9 @@
 #!/bin/bash
 
 harbor_ip=$2
-grafana_version=$3
-grafana_port=$4
-grafana_home=$5
-grafana_path=$6
-grafana_data=$7
-grafana_conf=$8
-grafana_logs=$9
-grafana_user=${10}
-grafana_description=${11}
-grafana_container_name=${12}
-network_mode=${13}
-harbor_library=grafana
+harbor_library=$3
+grafana_version=$4
 docker_image=$harbor_library:$grafana_version
-grafana_upgrade_version=${14}
 
 if [ $1 == "push" ];then
   docker pull $harbor_library/$docker_image
@@ -28,6 +17,18 @@ if [ $1 == "pull" ];then
   docker tag $harbor_ip/$harbor_library/$docker_image $docker_image
   docker rmi $harbor_ip/$harbor_library/$docker_image
 fi
+
+grafana_port=$5
+grafana_home=$6
+grafana_path=$7
+grafana_data=$8
+grafana_conf=$9
+grafana_logs=${10}
+grafana_user=${11}
+grafana_description=${12}
+grafana_container_name=${13}
+network_mode=${14}
+grafana_upgrade_version=${15}
 
 if [ $1 == "init" ];then
 
