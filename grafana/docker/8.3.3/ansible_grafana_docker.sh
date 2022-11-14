@@ -32,5 +32,5 @@ if [ $1 == "init" ] || [ $1 == "create" ] || [ $1 == "clean" ] || [ $1 == "delet
 fi
 
 if [ $1 == "upgrade" ];then
-  ansible $grafana_ip -m script -a "grafana_docker.sh $1 $harbor_ip $harbor_library grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode $grafana_upgrade_version"
+  ansible $grafana_ip -m script -a "grafana_docker.sh $1 $harbor_ip $harbor_library $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode $grafana_upgrade_version"
 fi
