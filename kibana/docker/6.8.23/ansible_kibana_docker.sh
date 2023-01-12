@@ -16,13 +16,7 @@ if [ $1 <> "push" ] || [ $1 <> "pull" ] || [ $1 <> "init" ] || [ $1 <> "create" 
 节点初始化容器同时创建容器 create
 
 节点重启 restart
-节点停止 stop
-节点启动 start
-节点容器运行状态 status
-节点清理容器和数据 clean
-
-调整配置 configadd
-添加监控 zabbix-config"
+节点升级 upgrade"
 fi
 
 if [ $1 == "push" ];then
