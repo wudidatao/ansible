@@ -1,16 +1,8 @@
 # Default ignored files
 /shelf/
-/workspace.xml
+/.idea/workspace.xml
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
-
-/dictionaries/
-deployment.xml
-misc.xml
-modules.xml
-sshConfigs.xml
-vcs.xml
-webServers.xml
