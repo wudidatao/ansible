@@ -30,6 +30,19 @@ mysql_container_name=${13}
 network_mode=${14}
 mysql_upgrade_version=${15}
 
+if [ $1 == "clean" ];then
+  docker rm -vf $mysql_container_name
+fi
+
+if [ $1 == "create" ];then
+  docker run -d -p $mysql_port:$mysql_port --net $network_mode -v $mysql_conf/conf.d:/etc/mysql/conf.d -v $mysql_data:/var/lib/mysql -v $mysql_logs:/var/log/mysql -v /etc/localtime:/etc/localtime -e MYSQL_ALLOW_EMPTY_PASSWORD=yes --name $mysql_container_name $docker_image
+fi
+
+if [ $1 == "delete" ];then
+  docker rm -vf $mysql_container_name
+  rm $mysql_path -rf
+fi
+
 if [ $1 == "init" ];then
 
    #创建初始化用户
@@ -55,19 +68,6 @@ if [ $1 == "init" ];then
 
   #删除容器但不删除数据
   docker rm -vf $mysql_container_name
-fi
-
-if [ $1 == "clean" ];then
-  docker rm -vf $mysql_container_name
-fi
-
-if [ $1 == "delete" ];then
-  docker rm -vf $mysql_container_name
-  rm $mysql_path -rf
-fi
-
-if [ $1 == "create" ];then
-  docker run -d -p $mysql_port:$mysql_port --net $network_mode -v $mysql_conf/conf.d:/etc/mysql/conf.d -v $mysql_data:/var/lib/mysql -v $mysql_logs:/var/log/mysql -v /etc/localtime:/etc/localtime -e MYSQL_ALLOW_EMPTY_PASSWORD=yes --name $mysql_container_name $docker_image
 fi
 
 if [ $1 == "status" ];then

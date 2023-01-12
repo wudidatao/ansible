@@ -30,6 +30,20 @@ grafana_container_name=${13}
 network_mode=${14}
 grafana_upgrade_version=${15}
 
+if [ $1 == "clean" ];then
+  docker rm -vf $grafana_container_name
+fi
+
+if [ $1 == "create" ];then
+  #只能使用root用户，grafana用户会有权限写入问题
+  docker run -d --privileged -p $grafana_port:$grafana_port --net $network_mode -u root:root -v $grafana_conf/grafana:/etc/grafana -v $grafana_data/grafana/:/var/lib/grafana/ -v /etc/localtime:/etc/localtime --name $grafana_container_name $docker_image
+fi
+
+if [ $1 == "delete" ];then
+  docker rm -vf $grafana_container_name
+  rm $grafana_path -rf
+fi
+
 if [ $1 == "init" ];then
 
   #创建初始化用户
@@ -58,20 +72,6 @@ if [ $1 == "init" ];then
 
   #删除容器但不删除数据
   docker rm -vf $grafana_container_name
-fi
-
-if [ $1 == "create" ];then
-  #只能使用root用户，grafana用户会有权限写入问题
-  docker run -d --privileged -p $grafana_port:$grafana_port --net $network_mode -u root:root -v $grafana_conf/grafana:/etc/grafana -v $grafana_data/grafana/:/var/lib/grafana/ -v /etc/localtime:/etc/localtime --name $grafana_container_name $docker_image
-fi
-
-if [ $1 == "clean" ];then
-  docker rm -vf $grafana_container_name
-fi
-
-if [ $1 == "delete" ];then
-  docker rm -vf $grafana_container_name
-  rm $grafana_path -rf
 fi
 
 if [ $1 == "status" ];then

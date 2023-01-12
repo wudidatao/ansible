@@ -27,7 +27,7 @@ if [ $1 = "pull" ];then
   ansible $grafana_ip -m script -a "grafana_docker.sh $1 $harbor_ip $harbor_library $grafana_version"
 fi
 
-if [ $1 == "init" ] || [ $1 == "create" ] || [ $1 == "clean" ] || [ $1 == "delete" ] || [ $1 == "status" ] || [ $1 == "start" ] || [ $1 == "stop" ] || [ $1 == "restart" ];then
+if [ $1 == "clean" ] || [ $1 == "create" ] || [ $1 == "delete" ] || [ $1 == "init" ] || [ $1 == "status" ] || [ $1 == "start" ] || [ $1 == "stop" ] || [ $1 == "restart" ];then
   ansible $grafana_ip -m script -a "grafana_docker.sh $1 $harbor_ip $harbor_library $grafana_version $grafana_port $grafana_home $grafana_path $grafana_data $grafana_conf $grafana_logs $grafana_user $grafana_description $grafana_container_name $network_mode"
 fi
 

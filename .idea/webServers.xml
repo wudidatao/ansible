@@ -16,6 +16,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="b20da605-14ba-43d3-ab32-5d9c8a9c7404" name="10.248.7.174 协解测试ansible">
+        <fileTransfer rootFolder="/home/scapp/" accessType="SFTP" host="10.248.7.174" port="9527" sshConfigId="d4b59036-c5fb-426c-9e47-73f5c8c0362b" sshConfig="scapp@10.248.7.174:9527 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>
