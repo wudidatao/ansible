@@ -25,7 +25,6 @@ network_mode=host
 #其他变量
 harbor_ip=10.248.245.184
 harbor_library=redis
-docker_image=$harbor_library:$redis_version
 
 #集群变量
 redis_cluster_ip="10.248.246.34:6379 10.248.246.36:6379 10.248.246.37:6379"
